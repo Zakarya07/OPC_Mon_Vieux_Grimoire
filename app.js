@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-
 const mongoose = require("mongoose");
+
+const booksRoutes = require("./routes/book");
+const usersRoutes = require("./routes/user");
 const mongo_uri =
   "mongodb+srv://Zakarya:zakarya11@cluster0.wwepwpb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -27,8 +29,9 @@ app.use((req, res, next) => {
 // JSON parsing
 app.use(express.json());
 
+
 // Routes
-app.use("/api/books");
-app.use("/api/auth");
+app.use("/api/books", booksRoutes);
+app.use("/api/auth", usersRoutes);
 
 module.exports = app;

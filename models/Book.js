@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const bookSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    ref: "User",
+    required: true
+  },
   title: {
     type: String,
     required: true,
@@ -24,7 +29,7 @@ const bookSchema = mongoose.Schema({
   ratings: [
     {
       userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "User",
         required: true,
       },
