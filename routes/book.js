@@ -5,9 +5,9 @@ const auth_middleware = require("../middleware/auth");
 const router = express.Router();
 
 // _________________ POST
-// Create a book
+// Create a book 🔐
 router.post("/", auth_middleware, bookController.createBook)
-// Rate a book
+// Rate a book 🔐
 router.post("/:id/rating", auth_middleware, bookController.rateBook)
 
 // _________________ GET
@@ -19,11 +19,11 @@ router.get("/:id", bookController.getOneBook);
 router.get("/bestrating", bookController.getBestBooksRating);
 
 // _________________ PUT
-// Modify a book
+// Modify a book 🔐
 router.put("/:id", auth_middleware, bookController.modifyBook);
 
 // _________________ DELETE
-// Deleta a book
+// Deleta a book 🔐
 router.delete("/:id", auth_middleware, bookController.deleteBook);
 
 module.exports = router;

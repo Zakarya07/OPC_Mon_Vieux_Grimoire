@@ -11,11 +11,22 @@ exports.rateBook = (req, res) => {
 // -- GET
 // Get all books
 exports.getAllBooks = (req, res) => {
+    Book.find()
+    .then(books => {
+        res.status(200).json(books)
+    })
+    .catch(error => res.status().json({ error }));
 };
 // Get one book
 exports.getOneBook = (req, res) => {
+    const book_id = req.params.id;
+    Book.findOne({ _id: book_id})
+    .then((book) => {
+        res.status(200).json(book)
+    })
+    .catch(error => res.status(404).json({ error }));
 };
-// Get the rating of the 3 best books
+// Get the 3 books with the best rating
 exports.getBestBooksRating = (req, res) => {
 };
 
