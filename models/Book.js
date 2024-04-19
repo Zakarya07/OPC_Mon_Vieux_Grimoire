@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const bookSchema = mongoose.Schema({
   userId: {
     type: String,
-    ref: "User",
     required: true
   },
   title: {
@@ -30,7 +29,6 @@ const bookSchema = mongoose.Schema({
     {
       userId: {
         type: String,
-        ref: "User",
         required: true,
       },
       grade: {
