@@ -3,6 +3,17 @@ const Book = require("../models/Book");
 // -- POST
 // Create a book
 exports.createBook = (req, res) => {
+    const bookObject = JSON.parse(req.body.book);
+    // Save in Database
+    const book = new Book({
+        userId: req.auth.userId,
+        ...bookObject,
+        imageUrl : `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+    })
+
+    book.save()
+    .then(() => res.status(201).json({message: "Livre ajouté"}))
+    .catch( error => res.status(400).json({error}))
 };
 // Rate a book
 exports.rateBook = (req, res) => {

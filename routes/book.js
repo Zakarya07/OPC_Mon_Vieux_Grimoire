@@ -1,14 +1,15 @@
 const express = require("express");
 const bookController = require("../controller/book");
 const auth_middleware = require("../middleware/auth");
+const multer_middleware = require("../middleware/multer-config");
 
 const router = express.Router();
 
 // _________________ POST
 // Create a book 🔐
-router.post("/", auth_middleware, bookController.createBook)
+router.post("/", auth_middleware, multer_middleware, bookController.createBook);
 // Rate a book 🔐
-router.post("/:id/rating", auth_middleware, bookController.rateBook)
+router.post("/:id/rating", auth_middleware, bookController.rateBook);
 
 // _________________ GET
 // Get all books
@@ -20,7 +21,7 @@ router.get("/bestrating", bookController.getBestBooksRating);
 
 // _________________ PUT
 // Modify a book 🔐
-router.put("/:id", auth_middleware, bookController.modifyBook);
+router.put("/:id", auth_middleware, multer_middleware, bookController.modifyBook);
 
 // _________________ DELETE
 // Deleta a book 🔐
