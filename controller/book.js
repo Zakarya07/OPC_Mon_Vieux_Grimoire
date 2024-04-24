@@ -45,6 +45,27 @@ exports.getBestBooksRating = (req, res) => {
 // -- PUT
 // Modify a book
 exports.modifyBook = (req, res) => {
+    const bookObject = req.file ? {
+        ...JSON.parse(req.body.book),
+        imageUrl: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`,
+    } : { ...req.body};
+
+    Book.findOne({_id: req.params.id})
+    .then(book => {
+        if (book.userId === req.auth.userId) {
+            const old_picture = book.imageUrl.split("/uploads/")[1];
+            fs.unlink(`uploads/${old_picture}`, () => {
+                Book.updateOne({_id: req.params.id}, { ...bookObject, _id: req.params.id })
+                .then( () => {
+                    res.status(200).json({message: "Livre modifié !"})
+                })
+                .catch(error => res.status().json({error}))
+            })
+        } else {
+            res.status(401).json({ message: "Non-authorisé à modifier"})
+        }
+    })
+    .catch(error => res.status(400).json({ error }));
 }
 
 // -- DELETE
@@ -62,7 +83,7 @@ exports.deleteBook = (req, res) => {
                 .catch(error => res.status(401).json({error}))
             });
         } else {
-            res.status(401).json({message: "Non-authorisé à supprmé"});
+            res.status(401).json({message: "Non-authorisé à supprimer"});
         }
     })
     .catch(error => res.status(500).json({ error }))
