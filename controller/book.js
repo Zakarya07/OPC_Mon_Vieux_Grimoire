@@ -22,14 +22,13 @@ exports.createBook = (req, res) => {
 };
 // Rate a book
 exports.rateBook = (req, res) => {
-
   const grade = Number(req.body.rating);
 
-  
+  // Rate a book 
   Book.findById(req.params.id)
   .then((book) => {
-    const alreadyRated = book.ratings.find((rating) => String(rating.userId) === req.auth.userId);
-    
+    const alreadyRated = book.ratings.find((rating) => rating.userId === req.auth.userId);
+
     if (alreadyRated) {
       res.status(400).json({ message: "Vous avez déja noté ce livre"});
     } else {
@@ -37,6 +36,15 @@ exports.rateBook = (req, res) => {
         userId: req.auth.userId,
         grade: grade
       })
+      
+      // Add the avg grade 
+      let sum = 0;
+      for(let i = 0; i < book.ratings.length; i++) {
+        sum += book.ratings[i].grade;
+      }
+      let avg_rating = (sum / book.ratings.length).toFixed(2);
+      book.averageRating = avg_rating;
+      
       book.save()
       .then(() => {
         res.status(201).json(book);
@@ -45,7 +53,7 @@ exports.rateBook = (req, res) => {
     }
   })
   .catch((error) => res.status(400).json({ error }));
-  console.log("Res: " + res.statusCode);
+
 };
 
 // -- GET
@@ -67,7 +75,9 @@ exports.getOneBook = (req, res) => {
     .catch((error) => res.status(404).json({ error }));
 };
 // Get the 3 books with the best rating
-exports.getBestBooksRating = (req, res) => {};
+exports.getBestBooksRating = (req, res) => {
+  
+};
 
 // -- PUT
 // Modify a book
