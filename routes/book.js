@@ -14,10 +14,10 @@ router.post("/:id/rating", auth_middleware, bookController.rateBook);
 // _________________ GET
 // Get all books
 router.get("/", bookController.getAllBooks);
-// Get one books
-router.get("/:id", bookController.getOneBook);
 // Get the 3 best rated books
 router.get("/bestrating", bookController.getBestBooksRating);
+// Get one books
+router.get("/:id", bookController.getOneBook);
 
 // _________________ PUT
 // Modify a book 🔐

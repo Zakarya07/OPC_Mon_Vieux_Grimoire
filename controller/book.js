@@ -37,7 +37,7 @@ exports.rateBook = (req, res) => {
         grade: grade
       })
       
-      // Add the avg grade 
+      // Add the average rating in the DB 
       let sum = 0;
       for(let i = 0; i < book.ratings.length; i++) {
         sum += book.ratings[i].grade;
@@ -76,7 +76,11 @@ exports.getOneBook = (req, res) => {
 };
 // Get the 3 books with the best rating
 exports.getBestBooksRating = (req, res) => {
-  
+  Book.find().sort({averageRating: -1}).limit(3)
+  .then(bestbooks => {
+    res.status(200).json(bestbooks);
+  })
+  .catch(error => res.status(400).json({ error }))
 };
 
 // -- PUT
