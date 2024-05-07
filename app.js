@@ -5,12 +5,11 @@ const path = require("path");
 
 const booksRoutes = require("./routes/book");
 const usersRoutes = require("./routes/user");
-const mongo_uri =
-  "mongodb+srv://Zakarya:zakarya11@cluster0.wwepwpb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoConnection = process.env.MONGO_DB_URI;
 
 // Mongo DB Connection
 mongoose
-  .connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoConnection, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB Atlas sucessfully"))
   .catch((error) => console.log("Failed to connect to MongoDB Atlas" + error));
 
